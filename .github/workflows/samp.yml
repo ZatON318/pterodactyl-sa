@@ -1,4 +1,4 @@
-name: build base
+name: build samp
 on:
   workflow_dispatch:
   schedule:
@@ -7,16 +7,16 @@ on:
     branches:
       - master
     paths:
-      - base/**
+      - yolks/samp/**
 jobs:
   push:
-    name: "yolks:${{ matrix.base }}"
+    name: "yolks:${{ matrix.build }}"
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        base:
-          - ubuntu
+        build:
+          - samp
     steps:
       - uses: actions/checkout@v3
       - uses: docker/setup-qemu-action@v2
@@ -31,9 +31,9 @@ jobs:
           password: ${{ secrets.REGISTRY_TOKEN }}
       - uses: docker/build-push-action@v3
         with:
-          context: ./base/${{ matrix.base }}
-          file: ./base/${{ matrix.base }}/Dockerfile
-          platforms: linux/amd64,linux/arm64
+          context: ./yolks/${{ matrix.build }}
+          file: ./yolks/${{ matrix.build }}/Dockerfile
+          platforms: linux/arm64,linux/amd64
           push: true
           tags: |
-            ghcr.io/daniscript18/yolks:${{ matrix.base }}
+            ghcr.io/daniscript18/yolks:${{ matrix.build }}

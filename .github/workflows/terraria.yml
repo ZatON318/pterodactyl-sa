@@ -1,4 +1,4 @@
-name: build box64
+name: build terraria
 on:
   workflow_dispatch:
   schedule:
@@ -7,16 +7,16 @@ on:
     branches:
       - master
     paths:
-      - box64/**
+      - yolks/terraria/**
 jobs:
   push:
-    name: "yolks:${{ matrix.tag }}"
+    name: "yolks:${{ matrix.build }}"
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        tag:
-          - box64
+        build:
+          - terraria
     steps:
       - uses: actions/checkout@v3
       - uses: docker/setup-qemu-action@v2
@@ -31,9 +31,9 @@ jobs:
           password: ${{ secrets.REGISTRY_TOKEN }}
       - uses: docker/build-push-action@v3
         with:
-          context: ./box64
-          file: ./${{ matrix.tag }}/Dockerfile
-          platforms: linux/arm64
+          context: ./yolks/${{ matrix.build }}
+          file: ./yolks/${{ matrix.build }}/Dockerfile
+          platforms: linux/arm64,linux/amd64
           push: true
           tags: |
-            ghcr.io/daniscript18/yolks:${{ matrix.tag }}
+            ghcr.io/daniscript18/yolks:${{ matrix.build }}

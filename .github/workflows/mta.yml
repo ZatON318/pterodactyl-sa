@@ -1,4 +1,4 @@
-name: build box86
+name: build mta
 on:
   workflow_dispatch:
   schedule:
@@ -7,16 +7,16 @@ on:
     branches:
       - master
     paths:
-      - box86/**
+      - yolks/mta/**
 jobs:
   push:
-    name: "yolks:${{ matrix.tag }}"
+    name: "yolks:${{ matrix.build }}"
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        tag:
-          - box86
+        build:
+          - mta
     steps:
       - uses: actions/checkout@v3
       - uses: docker/setup-qemu-action@v2
@@ -31,9 +31,9 @@ jobs:
           password: ${{ secrets.REGISTRY_TOKEN }}
       - uses: docker/build-push-action@v3
         with:
-          context: ./box86
-          file: ./${{ matrix.tag }}/Dockerfile
-          platforms: linux/arm64
+          context: ./yolks/${{ matrix.build }}
+          file: ./yolks/${{ matrix.build }}/Dockerfile
+          platforms: linux/arm64,linux/amd64
           push: true
           tags: |
-            ghcr.io/daniscript18/yolks:${{ matrix.tag }}
+            ghcr.io/daniscript18/yolks:${{ matrix.build }}

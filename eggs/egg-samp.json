@@ -1,0 +1,31 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2022-12-19T17:02:34+00:00",
+    "name": "\u00bb SAMP",
+    "author": "daniscript18@outlook.com",
+    "description": "SAN ANDREAS MULTIPLAYER \u2014 AMD & ARM",
+    "features": null,
+    "docker_images": {
+        "ghcr.io\/daniscript18\/yolks:samp": "ghcr.io\/daniscript18\/yolks:samp"
+    },
+    "file_denylist": [],
+    "startup": "arch=$(uname -i); if [ \"$arch\" == \"aarch64\" ]; then box86 .\/samp03svr; else .\/samp03svr; fi",
+    "config": {
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \"Started server on port: \"\r\n}",
+        "logs": "{}",
+        "stop": "^C"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/bash\r\napt update -y ; apt upgrade -y\r\napt install -y wget unzip ca-certificates\r\n\r\ncd \/tmp\r\nwget https:\/\/files.sa-mp.com\/samp037svr_R2-1.tar.gz\r\nmv samp037svr_R2-1.tar.gz samp.tar.gz\r\n\r\nmkdir -p \/mnt\/server\r\ntar -xzvf samp.tar.gz -C \/mnt\/server\/\r\ncp -r \/mnt\/server\/samp03\/* \/mnt\/server\r\nrm -rf \/mnt\/server\/samp03\/\r\ncd \/mnt\/server\r\nsed -i '3d' \/mnt\/server\/server.cfg\r\necho \"rcon_password changemeplease\" >> \/mnt\/server\/server.cfg",
+            "container": "ubuntu:latest",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": []
+}
