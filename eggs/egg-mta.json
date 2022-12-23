@@ -4,7 +4,7 @@
         "version": "PTDL_v2",
         "update_url": null
     },
-    "exported_at": "2022-12-19T17:03:25+00:00",
+    "exported_at": "2022-12-23T14:51:45+00:00",
     "name": "\u00bb MTA",
     "author": "daniscript18@outlook.com",
     "description": "MULTI THEFT AUTO SAN ANDREAS \u2014 AMD & ARM",
@@ -13,7 +13,7 @@
         "ghcr.io\/daniscript18\/yolks:mta": "ghcr.io\/daniscript18\/yolks:mta"
     },
     "file_denylist": [],
-    "startup": "arch=$(uname -i); if [ \"$arch\" == \"aarch64\" ]; then box64 .\/mta-server64 --port {{SERVER_PORT}} --httpport {{SERVER_WEBPORT}} -n; else .\/mta-server64 --port {{SERVER_PORT}} --httpport {{SERVER_WEBPORT}} -n; fi",
+    "startup": "arch=$(uname -i); if [ \"$arch\" == \"aarch64\" ]; then box64 .\/mta-server64 --port {{SERVER_PORT}} --httpport {{SERVER_WEBPORT}} --maxplayers {{MAX_PLAYERS}} -n; else .\/mta-server64 --port {{SERVER_PORT}} --httpport {{SERVER_WEBPORT}} --maxplayers {{MAX_PLAYERS}} -n; fi",
     "config": {
         "files": "{}",
         "startup": "{\r\n    \"done\": \"Server started and is ready to accept connections!\"\r\n}",
@@ -22,7 +22,7 @@
     },
     "scripts": {
         "installation": {
-            "script": "#!\/bin\/bash\r\napt update -y ; apt upgrade -y\r\napt install -y wget unzip ca-certificates\r\n\r\ncd \/tmp\r\n\r\nwget https:\/\/linux.mtasa.com\/dl\/multitheftauto_linux_x64.tar.gz\r\nwget https:\/\/linux.mtasa.com\/dl\/baseconfig.tar.gz\r\n\r\ntar -xf multitheftauto_linux_x64.tar.gz\r\ntar -xf baseconfig.tar.gz\r\n\r\nmv baseconfig\/* multitheftauto_linux_x64\/mods\/deathmatch\r\nrm -rf baseconfig\r\ncd multitheftauto_linux_x64\r\n\r\nmkdir mods\/deathmatch\/resources\r\ncd mods\/deathmatch\/resources\r\nwget https:\/\/mirror.mtasa.com\/mtasa\/resources\/mtasa-resources-latest.zip\r\nunzip mtasa-resources-latest.zip\r\ncd ..\/..\/..\r\n\r\nrm -f ..\/multitheftauto_linux_x64.tar.gz\r\nrm -f ..\/baseconfig.tar.gz\r\nrm -f mods\/deathmatch\/resources\/mtasa-resources-latest.zip\r\n\r\ncd \/usr\/lib\r\nwget https:\/\/nightly.mtasa.com\/files\/modules\/64\/libmysqlclient.so.16\r\n\r\nmkdir -p \/mnt\/server\r\n\r\ncd \/tmp\r\nmv multitheftauto_linux_x64\/* \/mnt\/server\/\r\ncd \/mnt\/server",
+            "script": "#!\/bin\/bash\r\napt update -y ; apt upgrade -y\r\napt install -y wget unzip ca-certificates\r\n\r\ncd \/tmp\r\n\r\nwget https:\/\/linux.mtasa.com\/dl\/multitheftauto_linux_x64.tar.gz\r\nwget https:\/\/linux.mtasa.com\/dl\/baseconfig.tar.gz\r\n\r\ntar -xf multitheftauto_linux_x64.tar.gz\r\ntar -xf baseconfig.tar.gz\r\n\r\nmv baseconfig\/* multitheftauto_linux_x64\/mods\/deathmatch\r\nrm -rf baseconfig\r\ncd multitheftauto_linux_x64\r\n\r\nmkdir mods\/deathmatch\/resources\r\ncd mods\/deathmatch\/resources\r\nwget https:\/\/mirror.mtasa.com\/mtasa\/resources\/mtasa-resources-latest.zip\r\nunzip mtasa-resources-latest.zip\r\ncd ..\/..\/..\r\n\r\nrm -f ..\/multitheftauto_linux_x64.tar.gz\r\nrm -f ..\/baseconfig.tar.gz\r\nrm -f mods\/deathmatch\/resources\/mtasa-resources-latest.zip\r\n\r\nmkdir -p \/mnt\/server\r\n\r\ncd \/tmp\r\nmv multitheftauto_linux_x64\/* \/mnt\/server\/\r\ncd \/mnt\/server",
             "container": "ubuntu:latest",
             "entrypoint": "bash"
         }
@@ -36,6 +36,16 @@
             "user_viewable": true,
             "user_editable": true,
             "rules": "required|numeric",
+            "field_type": "text"
+        },
+        {
+            "name": "MAX_PLAYERS",
+            "description": "",
+            "env_variable": "MAX_PLAYERS",
+            "default_value": "32",
+            "user_viewable": true,
+            "user_editable": false,
+            "rules": "required|numeric|max:4096",
             "field_type": "text"
         }
     ]

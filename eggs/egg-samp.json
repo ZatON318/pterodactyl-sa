@@ -4,7 +4,7 @@
         "version": "PTDL_v2",
         "update_url": null
     },
-    "exported_at": "2022-12-19T17:02:34+00:00",
+    "exported_at": "2022-12-23T14:42:49+00:00",
     "name": "\u00bb SAMP",
     "author": "daniscript18@outlook.com",
     "description": "SAN ANDREAS MULTIPLAYER \u2014 AMD & ARM",
@@ -15,7 +15,7 @@
     "file_denylist": [],
     "startup": "arch=$(uname -i); if [ \"$arch\" == \"aarch64\" ]; then box86 .\/samp03svr; else .\/samp03svr; fi",
     "config": {
-        "files": "{}",
+        "files": "{\r\n    \"server.cfg\": {\r\n        \"parser\": \"file\",\r\n        \"find\": {\r\n            \"port\": \"port {{server.build.default.port}}\",\r\n            \"maxplayers\": \"maxplayers {{server.build.env.MAX_PLAYERS}}\"\r\n        }\r\n    }\r\n}",
         "startup": "{\r\n    \"done\": \"Started server on port: \"\r\n}",
         "logs": "{}",
         "stop": "^C"
@@ -27,5 +27,16 @@
             "entrypoint": "bash"
         }
     },
-    "variables": []
+    "variables": [
+        {
+            "name": "MAX_PLAYERS",
+            "description": "",
+            "env_variable": "MAX_PLAYERS",
+            "default_value": "50",
+            "user_viewable": true,
+            "user_editable": false,
+            "rules": "required|numeric|max:1000",
+            "field_type": "text"
+        }
+    ]
 }
