@@ -4,7 +4,7 @@
         "version": "PTDL_v2",
         "update_url": null
     },
-    "exported_at": "2022-12-23T14:42:43+00:00",
+    "exported_at": "2022-12-24T05:53:42-04:00",
     "name": "\u00bb TERRARIA",
     "author": "daniscript18@outlook.com",
     "description": "TERRARIA \u2014 AMD & ARM",
@@ -13,39 +13,39 @@
         "ghcr.io\/daniscript18\/yolks:terraria": "ghcr.io\/daniscript18\/yolks:terraria"
     },
     "file_denylist": [],
-    "startup": "mono .\/TerrariaServer.exe -config serverconfig.txt",
+    "startup": ".\/start.sh {{START_FILE}} {{CONFIG_FILE}} 0.0.0.0 {{SERVER_PORT}} {{MAX_PLAYERS}}",
     "config": {
-        "files": "{\r\n    \"serverconfig.txt\": {\r\n        \"parser\": \"properties\",\r\n        \"find\": {\r\n            \"worldpath\": \"\/home\/container\/saves\/Worlds\",\r\n            \"worldname\": \"{{server.build.env.WORLD_NAME}}\",\r\n            \"world\": \"\/home\/container\/saves\/Worlds\/{{server.build.env.WORLD_NAME}}.wld\",\r\n            \"difficulty\": \"{{server.build.env.WORLD_DIFFICULTY}}\",\r\n            \"autocreate\": \"{{server.build.env.WORLD_SIZE}}\",\r\n            \"port\": \"{{server.build.default.port}}\",\r\n            \"maxplayers\": \"{{server.build.env.MAX_PLAYERS}}\",\r\n            \"motd\": \"{{server.build.env.SERVER_MOTD}}\"\r\n        }\r\n    }\r\n}",
+        "files": "{}",
         "startup": "{\r\n    \"done\": \"Type 'help' for a list of commands\"\r\n}",
         "logs": "{}",
         "stop": "exit"
     },
     "scripts": {
         "installation": {
-            "script": "#!\/bin\/bash\r\napt update -y ; apt upgrade -y\r\napt install -y curl wget file unzip\r\n\r\nDOWNLOAD_LINK=\"\"\r\n\r\nmkdir -p \/mnt\/server\/\r\ncd \/mnt\/server\/\r\n\r\nif [ \"${TERRARIA_VERSION}\" == \"latest\" ] || [ \"${TERRARIA_VERSION}\" == \"\" ] ; then\r\n    DOWNLOAD_LINK=$(curl -sSL https:\/\/terraria.gamepedia.com\/Server#Downloads | grep '>Terraria Server ' | grep -Eoi '<a [^>]+>' | grep -Eo 'href=\\\"[^\\\\\\\"]+\\\"' | grep -Eo '(http|https):\\\/\\\/[^\\\"]+' | tail -1 | cut -d'?' -f1)\r\nelse\r\n    CLEAN_VERSION=$(echo ${TERRARIA_VERSION} | sed 's\/\\.\/\/g')\r\n    DOWNLOAD_LINK=$(curl -sSL https:\/\/terraria.gamepedia.com\/Server#Downloads | grep '>Terraria Server ' | grep -Eoi '<a [^>]+>' | grep -Eo 'href=\\\"[^\\\\\\\"]+\\\"' | grep -Eo '(http|https):\\\/\\\/[^\\\"]+' | grep \"${CLEAN_VERSION}\" | cut -d'?' -f1)\r\nfi\r\nif [ ! -z \"${DOWNLOAD_LINK}\" ]; then \r\n    if curl --output \/dev\/null --silent --head --fail ${DOWNLOAD_LINK}; then\r\n        echo -e \"\"\r\n    else\r\n        exit 2\r\n    fi\r\nfi\r\n\r\nCLEAN_VERSION=$(echo ${DOWNLOAD_LINK##*\/} | cut -d'-' -f3 | cut -d'.' -f1)\r\necho ${DOWNLOAD_LINK}\r\necho ${DOWNLOAD_LINK##*\/}\r\nwget \"${DOWNLOAD_LINK}\"\r\nunzip ${DOWNLOAD_LINK##*\/}\r\ncp -R ${CLEAN_VERSION}\/Linux\/* .\/\r\nchmod +x TerrariaServer.bin.x86_64\r\nrm -rf ${CLEAN_VERSION}\r\nrm -rf System*\r\nrm -rf Mono*\r\nrm -rf monoconfig\r\nrm -rf mscorlib.dll \r\n\r\ncat <<EOF > serverconfig.txt\r\nworldpath=\/home\/container\/saves\/Worlds\r\nworldname=world\r\nworld=\/home\/container\/saves\/Worlds\/world.wld\r\ndifficulty=0\r\nautocreate=1\r\nport=7777\r\nmaxplayers=16\r\nEOF\r\n\r\nmkdir -p \/mnt\/server\/saves\/Worlds",
+            "script": "#!\/bin\/bash\r\napt update -y ; apt upgrade -y\r\napt install -y curl wget file unzip\r\n\r\nDOWNLOAD_LINK=\"\"\r\nTERRARIA_VERSION=\"latest\"\r\n\r\nmkdir -p \/mnt\/server\/\r\ncd \/mnt\/server\/\r\n\r\nif [ \"${TERRARIA_VERSION}\" == \"latest\" ] || [ \"${TERRARIA_VERSION}\" == \"\" ] ; then\r\n    DOWNLOAD_LINK=$(curl -sSL https:\/\/terraria.gamepedia.com\/Server#Downloads | grep '>Terraria Server ' | grep -Eoi '<a [^>]+>' | grep -Eo 'href=\\\"[^\\\\\\\"]+\\\"' | grep -Eo '(http|https):\\\/\\\/[^\\\"]+' | tail -1 | cut -d'?' -f1)\r\nelse\r\n    CLEAN_VERSION=$(echo ${TERRARIA_VERSION} | sed 's\/\\.\/\/g')\r\n    DOWNLOAD_LINK=$(curl -sSL https:\/\/terraria.gamepedia.com\/Server#Downloads | grep '>Terraria Server ' | grep -Eoi '<a [^>]+>' | grep -Eo 'href=\\\"[^\\\\\\\"]+\\\"' | grep -Eo '(http|https):\\\/\\\/[^\\\"]+' | grep \"${CLEAN_VERSION}\" | cut -d'?' -f1)\r\nfi\r\nif [ ! -z \"${DOWNLOAD_LINK}\" ]; then \r\n    if curl --output \/dev\/null --silent --head --fail ${DOWNLOAD_LINK}; then\r\n        echo -e \"\"\r\n    else\r\n        exit 2\r\n    fi\r\nfi\r\n\r\nCLEAN_VERSION=$(echo ${DOWNLOAD_LINK##*\/} | cut -d'-' -f3 | cut -d'.' -f1)\r\necho ${DOWNLOAD_LINK}\r\necho ${DOWNLOAD_LINK##*\/}\r\nwget \"${DOWNLOAD_LINK}\"\r\nunzip ${DOWNLOAD_LINK##*\/}\r\ncp -R ${CLEAN_VERSION}\/Linux\/* .\/\r\nchmod +x TerrariaServer.bin.x86_64\r\nrm -rf ${CLEAN_VERSION}\r\nrm -rf System*\r\nrm -rf Mono*\r\nrm -rf monoconfig\r\nrm -rf mscorlib.dll \r\n\r\ncat <<EOF > serverconfig.txt\r\nworldpath=\/home\/container\/saves\/Worlds\r\nworldname=world\r\nworld=\/home\/container\/saves\/Worlds\/world.wld\r\ndifficulty=0\r\nautocreate=1\r\nport=7777\r\nmaxplayers=16\r\nEOF\r\n\r\nmkdir -p \/mnt\/server\/saves\/Worlds",
             "container": "ubuntu:latest",
             "entrypoint": "bash"
         }
     },
     "variables": [
         {
-            "name": "TERRARIA_VERSION",
+            "name": "START_FILE",
             "description": "",
-            "env_variable": "TERRARIA_VERSION",
-            "default_value": "latest",
+            "env_variable": "START_FILE",
+            "default_value": ".\/TerrariaServer.exe",
             "user_viewable": true,
             "user_editable": true,
-            "rules": "required|string|max:20",
+            "rules": "required|string",
             "field_type": "text"
         },
         {
-            "name": "WORLD_NAME",
+            "name": "CONFIG_FILE",
             "description": "",
-            "env_variable": "WORLD_NAME",
-            "default_value": "world",
+            "env_variable": "CONFIG_FILE",
+            "default_value": ".\/serverconfig.txt",
             "user_viewable": true,
             "user_editable": true,
-            "rules": "required|string|max:20",
+            "rules": "required|string",
             "field_type": "text"
         },
         {
@@ -56,36 +56,6 @@
             "user_viewable": true,
             "user_editable": false,
             "rules": "required|numeric|max:255",
-            "field_type": "text"
-        },
-        {
-            "name": "WORLD_SIZE",
-            "description": "",
-            "env_variable": "WORLD_SIZE",
-            "default_value": "1",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|numeric|in:1,2,3",
-            "field_type": "text"
-        },
-        {
-            "name": "WORLD_DIFFICULTY",
-            "description": "",
-            "env_variable": "WORLD_DIFFICULTY",
-            "default_value": "0",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|numeric|in:0,1,2,3",
-            "field_type": "text"
-        },
-        {
-            "name": "SERVER_MOTD",
-            "description": "",
-            "env_variable": "SERVER_MOTD",
-            "default_value": "Terraria",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|string|max:128",
             "field_type": "text"
         }
     ]

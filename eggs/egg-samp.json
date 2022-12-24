@@ -4,7 +4,7 @@
         "version": "PTDL_v2",
         "update_url": null
     },
-    "exported_at": "2022-12-23T14:42:49+00:00",
+    "exported_at": "2022-12-24T05:53:40-04:00",
     "name": "\u00bb SAMP",
     "author": "daniscript18@outlook.com",
     "description": "SAN ANDREAS MULTIPLAYER \u2014 AMD & ARM",
@@ -13,12 +13,12 @@
         "ghcr.io\/daniscript18\/yolks:samp": "ghcr.io\/daniscript18\/yolks:samp"
     },
     "file_denylist": [],
-    "startup": "arch=$(uname -i); if [ \"$arch\" == \"aarch64\" ]; then box86 .\/samp03svr; else .\/samp03svr; fi",
+    "startup": ".\/start.sh {{START_FILE}} {{CONFIG_FILE}} 0.0.0.0 {{SERVER_PORT}} {{MAX_PLAYERS}}",
     "config": {
-        "files": "{\r\n    \"server.cfg\": {\r\n        \"parser\": \"file\",\r\n        \"find\": {\r\n            \"port\": \"port {{server.build.default.port}}\",\r\n            \"maxplayers\": \"maxplayers {{server.build.env.MAX_PLAYERS}}\"\r\n        }\r\n    }\r\n}",
-        "startup": "{\r\n    \"done\": \"Started server on port: \"\r\n}",
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \"Started server on \"\r\n}",
         "logs": "{}",
-        "stop": "^C"
+        "stop": "^^C"
     },
     "scripts": {
         "installation": {
@@ -28,6 +28,26 @@
         }
     },
     "variables": [
+        {
+            "name": "START_FILE",
+            "description": "",
+            "env_variable": "START_FILE",
+            "default_value": ".\/samp03svr",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string",
+            "field_type": "text"
+        },
+        {
+            "name": "CONFIG_FILE",
+            "description": "",
+            "env_variable": "CONFIG_FILE",
+            "default_value": ".\/server.cfg",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string",
+            "field_type": "text"
+        },
         {
             "name": "MAX_PLAYERS",
             "description": "",
