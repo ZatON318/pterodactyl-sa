@@ -17,30 +17,24 @@ then # IF IT EXISTS
     rm start.sh
 
     # WE DOWNLOAD THE FILE AGAIN
-    wget wget https://raw.githubusercontent.com/daniscript18/pterodactyl/master/scripts/start-mta.sh --no-hsts
+    wget https://raw.githubusercontent.com/daniscript18/pterodactyl/master/scripts/start-mta.sh --no-hsts -q
 
     # WE RENAME IT
     mv start-mta.sh start.sh
 
     # WE MAKE IT EXECUTABLE
     chmod +x start.sh
-
-    # CONSOLE CLEAN
-    clear
     
 else # IF NOT EXISTS
 
     # WE DOWNLOAD THE FILE AGAIN
-    wget wget https://raw.githubusercontent.com/daniscript18/pterodactyl/master/scripts/start-mta.sh --no-hsts
+    wget https://raw.githubusercontent.com/daniscript18/pterodactyl/master/scripts/start-mta.sh --no-hsts -q
 
     # WE RENAME IT
     mv start-mta.sh start.sh
 
     # WE MAKE IT EXECUTABLE
     chmod +x start.sh
-
-    # CONSOLE CLEAN
-    clear
     
 fi
 
