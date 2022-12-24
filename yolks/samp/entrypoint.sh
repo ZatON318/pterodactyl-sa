@@ -17,24 +17,30 @@ then # IF IT EXISTS
     rm start.sh
 
     # WE DOWNLOAD THE FILE AGAIN
-    wget wget https://raw.githubusercontent.com/daniscript18/pterodactyl/master/scripts/start-samp.sh
+    wget wget https://raw.githubusercontent.com/daniscript18/pterodactyl/master/scripts/start-samp.sh --no-hsts
 
     # WE RENAME IT
     mv start-samp.sh start.sh
 
     # WE MAKE IT EXECUTABLE
     chmod +x start.sh
+
+    # CONSOLE CLEAN
+    clear
 
 else # IF NOT EXISTS
 
     # WE DOWNLOAD THE FILE AGAIN
-    wget wget https://raw.githubusercontent.com/daniscript18/pterodactyl/master/scripts/start-samp.sh
+    wget wget https://raw.githubusercontent.com/daniscript18/pterodactyl/master/scripts/start-samp.sh --no-hsts
 
     # WE RENAME IT
     mv start-samp.sh start.sh
 
     # WE MAKE IT EXECUTABLE
     chmod +x start.sh
+    
+    # CONSOLE CLEAN
+    clear
     
 fi
 

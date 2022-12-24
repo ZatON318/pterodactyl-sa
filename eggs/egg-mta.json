@@ -4,7 +4,7 @@
         "version": "PTDL_v2",
         "update_url": null
     },
-    "exported_at": "2022-12-24T05:53:36-04:00",
+    "exported_at": "2022-12-24T07:24:15-04:00",
     "name": "\u00bb MTA",
     "author": "daniscript18@outlook.com",
     "description": "MULTI THEFT AUTO SAN ANDREAS \u2014 AMD & ARM",
@@ -16,13 +16,13 @@
     "startup": ".\/start.sh {{START_FILE}} {{CONFIG_FILE}} 0.0.0.0 {{SERVER_PORT}} {{MAX_PLAYERS}}",
     "config": {
         "files": "{}",
-        "startup": "{\r\n    \"done\": \"Type 'help' for a list of commands.\"\r\n}",
+        "startup": "{\r\n    \"done\": \"Type 'help' for a list of commands\"\r\n}",
         "logs": "{}",
         "stop": "shutdown"
     },
     "scripts": {
         "installation": {
-            "script": "#!\/bin\/bash\r\napt update -y ; apt upgrade -y\r\napt install -y wget unzip ca-certificates\r\n\r\ncd \/tmp\r\n\r\nwget https:\/\/linux.mtasa.com\/dl\/multitheftauto_linux_x64.tar.gz\r\nwget https:\/\/linux.mtasa.com\/dl\/baseconfig.tar.gz\r\n\r\ntar -xf multitheftauto_linux_x64.tar.gz\r\ntar -xf baseconfig.tar.gz\r\n\r\nmv baseconfig\/* multitheftauto_linux_x64\/mods\/deathmatch\r\nrm -rf baseconfig\r\ncd multitheftauto_linux_x64\r\n\r\nmkdir mods\/deathmatch\/resources\r\ncd mods\/deathmatch\/resources\r\nwget https:\/\/mirror.mtasa.com\/mtasa\/resources\/mtasa-resources-latest.zip\r\nunzip mtasa-resources-latest.zip\r\ncd ..\/..\/..\r\n\r\nrm -f ..\/multitheftauto_linux_x64.tar.gz\r\nrm -f ..\/baseconfig.tar.gz\r\nrm -f mods\/deathmatch\/resources\/mtasa-resources-latest.zip\r\n\r\nmkdir -p \/mnt\/server\r\n\r\ncd \/tmp\r\nmv multitheftauto_linux_x64\/* \/mnt\/server\/\r\ncd \/mnt\/server",
+            "script": "#!\/bin\/bash\r\napt update -y ; apt upgrade -y\r\napt install -y wget unzip ca-certificates\r\n\r\ncd \/tmp\r\n\r\nwget https:\/\/linux.mtasa.com\/dl\/multitheftauto_linux_x64.tar.gz\r\nwget https:\/\/linux.mtasa.com\/dl\/baseconfig.tar.gz\r\n\r\ntar -xf multitheftauto_linux_x64.tar.gz\r\ntar -xf baseconfig.tar.gz\r\n\r\nmv baseconfig\/* multitheftauto_linux_x64\/mods\/deathmatch\r\nrm -rf baseconfig\r\ncd multitheftauto_linux_x64\r\n\r\nmkdir mods\/deathmatch\/resources\r\ncd mods\/deathmatch\/resources\r\nwget https:\/\/mirror.mtasa.com\/mtasa\/resources\/mtasa-resources-latest.zip\r\nunzip mtasa-resources-latest.zip\r\ncd ..\/..\/..\r\n\r\nrm -f ..\/multitheftauto_linux_x64.tar.gz\r\nrm -f ..\/baseconfig.tar.gz\r\nrm -f mods\/deathmatch\/resources\/mtasa-resources-latest.zip\r\n\r\nmkdir -p \/mnt\/server\r\n\r\ncd \/tmp\r\nmv multitheftauto_linux_x64\/* \/mnt\/server\/\r\n\r\ncd \/mnt\/server",
             "container": "ubuntu:latest",
             "entrypoint": "bash"
         }

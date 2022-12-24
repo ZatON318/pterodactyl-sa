@@ -4,7 +4,7 @@
         "version": "PTDL_v2",
         "update_url": null
     },
-    "exported_at": "2022-12-24T05:53:42-04:00",
+    "exported_at": "2022-12-24T07:24:18-04:00",
     "name": "\u00bb TERRARIA",
     "author": "daniscript18@outlook.com",
     "description": "TERRARIA \u2014 AMD & ARM",
@@ -22,7 +22,7 @@
     },
     "scripts": {
         "installation": {
-            "script": "#!\/bin\/bash\r\napt update -y ; apt upgrade -y\r\napt install -y curl wget file unzip\r\n\r\nDOWNLOAD_LINK=\"\"\r\nTERRARIA_VERSION=\"latest\"\r\n\r\nmkdir -p \/mnt\/server\/\r\ncd \/mnt\/server\/\r\n\r\nif [ \"${TERRARIA_VERSION}\" == \"latest\" ] || [ \"${TERRARIA_VERSION}\" == \"\" ] ; then\r\n    DOWNLOAD_LINK=$(curl -sSL https:\/\/terraria.gamepedia.com\/Server#Downloads | grep '>Terraria Server ' | grep -Eoi '<a [^>]+>' | grep -Eo 'href=\\\"[^\\\\\\\"]+\\\"' | grep -Eo '(http|https):\\\/\\\/[^\\\"]+' | tail -1 | cut -d'?' -f1)\r\nelse\r\n    CLEAN_VERSION=$(echo ${TERRARIA_VERSION} | sed 's\/\\.\/\/g')\r\n    DOWNLOAD_LINK=$(curl -sSL https:\/\/terraria.gamepedia.com\/Server#Downloads | grep '>Terraria Server ' | grep -Eoi '<a [^>]+>' | grep -Eo 'href=\\\"[^\\\\\\\"]+\\\"' | grep -Eo '(http|https):\\\/\\\/[^\\\"]+' | grep \"${CLEAN_VERSION}\" | cut -d'?' -f1)\r\nfi\r\nif [ ! -z \"${DOWNLOAD_LINK}\" ]; then \r\n    if curl --output \/dev\/null --silent --head --fail ${DOWNLOAD_LINK}; then\r\n        echo -e \"\"\r\n    else\r\n        exit 2\r\n    fi\r\nfi\r\n\r\nCLEAN_VERSION=$(echo ${DOWNLOAD_LINK##*\/} | cut -d'-' -f3 | cut -d'.' -f1)\r\necho ${DOWNLOAD_LINK}\r\necho ${DOWNLOAD_LINK##*\/}\r\nwget \"${DOWNLOAD_LINK}\"\r\nunzip ${DOWNLOAD_LINK##*\/}\r\ncp -R ${CLEAN_VERSION}\/Linux\/* .\/\r\nchmod +x TerrariaServer.bin.x86_64\r\nrm -rf ${CLEAN_VERSION}\r\nrm -rf System*\r\nrm -rf Mono*\r\nrm -rf monoconfig\r\nrm -rf mscorlib.dll \r\n\r\ncat <<EOF > serverconfig.txt\r\nworldpath=\/home\/container\/saves\/Worlds\r\nworldname=world\r\nworld=\/home\/container\/saves\/Worlds\/world.wld\r\ndifficulty=0\r\nautocreate=1\r\nport=7777\r\nmaxplayers=16\r\nEOF\r\n\r\nmkdir -p \/mnt\/server\/saves\/Worlds",
+            "script": "#!\/bin\/bash\r\napt update -y ; apt upgrade -y\r\napt install -y curl wget file unzip\r\n\r\nDOWNLOAD_LINK=$(curl -sSL https:\/\/terraria.gamepedia.com\/Server#Downloads | grep '>Terraria Server ' | grep -Eoi '<a [^>]+>' | grep -Eo 'href=\\\"[^\\\\\\\"]+\\\"' | grep -Eo '(http|https):\\\/\\\/[^\\\"]+' | tail -1 | cut -d'?' -f1)\r\n\r\nmkdir -p \/mnt\/server\/\r\nmkdir -p \/mnt\/server\/saves\/Worlds\r\n\r\ncd \/mnt\/server\/\r\n\r\nif [ ! -z \"${DOWNLOAD_LINK}\" ];\r\nthen \r\n    if curl --output \/dev\/null --silent --head --fail ${DOWNLOAD_LINK};\r\n    then\r\n        return\r\n    else\r\n        exit 2\r\n    fi\r\nfi\r\n\r\nCLEAN_VERSION=$(echo ${DOWNLOAD_LINK##*\/} | cut -d'-' -f3 | cut -d'.' -f1)\r\n\r\necho ${DOWNLOAD_LINK}\r\necho ${DOWNLOAD_LINK##*\/}\r\n\r\nwget \"${DOWNLOAD_LINK}\"\r\nunzip ${DOWNLOAD_LINK##*\/}\r\n\r\ncp -R ${CLEAN_VERSION}\/Linux\/* .\/\r\nchmod +x TerrariaServer.bin.x86_64\r\n\r\nrm -rf ${CLEAN_VERSION}\r\nrm -rf System*\r\nrm -rf Mono*\r\nrm -rf monoconfig\r\nrm -rf mscorlib.dll \r\n\r\nwget https:\/\/raw.githubusercontent.com\/daniscript18\/pterodactyl\/master\/yolks\/terraria\/serverconfig.txt",
             "container": "ubuntu:latest",
             "entrypoint": "bash"
         }
