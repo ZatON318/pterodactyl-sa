@@ -18,6 +18,12 @@ RUN     wget https://raw.githubusercontent.com/daniscript18/pterodactyl/master/s
         bash install-box86.sh && \
         rm install-box86.sh
 
+##      SAMP BRANCHES
+RUN     wget https://raw.githubusercontent.com/daniscript18/pterodactyl/master/scripts/branches-samp.sh && \
+        bash branches-samp.sh && \
+        rm branches-samp.sh
+
+
 ##      CREATION OF THE "CONTAINER" USER
 RUN     useradd -m -d /home/container -s /bin/bash container
 
