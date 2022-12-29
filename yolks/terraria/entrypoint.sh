@@ -1,10 +1,7 @@
 #!/bin/bash
 
-# GET INTERNAL IP ADDRESS
-INTERNAL_IP=$(ip route get 1 | awk '{print $(NF-2);exit}')
-
-# EXPORT INTERNAL IP ADDRESS
-export INTERNAL_IP
+# GET AND EXPORT INTERNAL IP ADDRESS
+export INTERNAL_IP=$(ip route get 1 | awk '{print $(NF-2);exit}')
 
 # GO TO THE DIRECTORY
 cd /home/container
@@ -39,7 +36,7 @@ else # IF NOT EXISTS
 fi
 
 # CREATING START COMMAND
-MODIFIED_STARTUP=$(echo ${STARTUP} | sed -e 's/{{/${/g' -e 's/}}/}/g')
+MODIFIED_STARTUP=$(echo ${STARTUP} | sed -e 's/{{/${/g' -e 's/}}/}/g' | eval echo "$(cat -)")
 
 # RUN START COMMAND
-eval ${MODIFIED_STARTUP}
+exec env ${MODIFIED_STARTUP}
