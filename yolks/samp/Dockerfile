@@ -1,35 +1,32 @@
-##      PLATFORMS AND BASE IMAGE
-FROM    --platform=$TARGETOS/$TARGETARCH ubuntu:latest
+FROM        --platform=$TARGETOS/$TARGETARCH debian:bookworm-slim
 
-##      CREDITS TO THE AUTHOR
-LABEL   author="daniscript18" maintainer="daniscript18@outlook.com"
+LABEL       author="daniscript18" maintainer="daniscript18@outlook.com"
 
-##      DISABLE THE INTERACTION
-ENV     DEBIAN_FRONTEND noninteractive
+RUN         apt update \
+            && apt -y upgrade
+RUN         dpkg --add-architecture i386 \
+            && apt update \
+            && apt upgrade -y \
+            && apt install -y libstdc++6 lib32stdc++6 tar wget curl iproute2 openssl fontconfig dirmngr ca-certificates dnsutils tzdata zip tini \
+            && apt install -y libtbb12:i386 libtbb-dev:i386 libicu-dev:i386  \
+            && useradd -d /home/container -m container
 
-##      UPDATE THE LIST OF REPOSITORIES AND SYSTEM PACKAGES
-RUN     apt update -y ; apt upgrade -y
+RUN         mkdir -p /run/systemd && echo 'docker' > /run/systemd/container
+RUN         rm -rf /var/lib/apt/lists/*
 
-##      INSTALL SOME ESSENTIAL PACKAGES
-RUN     apt install -y gcc g++ libgcc1 libc++-dev gdb libc6 git wget curl tar zip unzip binutils xz-utils liblzo2-2 cabextract iproute2 net-tools netcat telnet libatomic1 libsdl1.2debian libsdl2-2.0-0 libfontconfig icu-devtools libunwind8 sqlite3 libsqlite3-dev libmariadb-dev libzip4 locales ffmpeg apt-transport-https init-system-helpers libcurl3-gnutls liblua5.1-0 libluajit-5.1-2 libsqlite3-0 bzip2 zlib1g libevent-dev systemd
+RUN         if [ "$(uname -m)" = "x86_64" ]; then \
+                wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.0g-2ubuntu4_i386.deb && \
+                dpkg -i libssl1.1_1.1.0g-2ubuntu4_i386.deb && \
+                rm libssl1.1_1.1.0g-2ubuntu4_i386.deb; \
+            fi
+			
+USER        container
+ENV         USER=container HOME=/home/container
+WORKDIR     /home/container
 
-##      INSTALL DEPENDENCIES
-RUN     curl -s https://raw.githubusercontent.com/daniscript18/pterodactyl/master/scripts/dependencies-samp.sh | sh
+STOPSIGNAL  SIGINT
 
-##      CREATION OF THE CONTAINER USER
-RUN     useradd -m -d /home/container -s /bin/bash container
-
-##      GLOBAL VARIABLE FOR THE USER AND CENTRAL DIRECTORY
-ENV     USER=container HOME=/home/container
-
-##      ESTABLISHMENT OF THE WORK AREA
-WORKDIR /home/container
-
-##      COPY THE EXECUTABLE FILE TO THE CONTAINER
-COPY    ./run.sh /run.sh
-
-##      COPY THE EXECUTABLE FILE TO THE CONTAINER
-COPY    ./entrypoint.sh /entrypoint.sh
-
-##      PRIMARY RUN COMMAND
-CMD     [ "/bin/bash", "/run.sh" ]
+COPY        --chown=container:container ./entrypoint.sh /entrypoint.sh
+RUN         chmod +x /entrypoint.sh
+ENTRYPOINT  ["/usr/bin/tini", "-g", "--"]
+CMD         ["/entrypoint.sh"]
