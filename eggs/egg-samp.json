@@ -4,7 +4,7 @@
         "version": "PTDL_v2",
         "update_url": null
     },
-    "exported_at": "2024-10-07T18:24:46-04:00",
+    "exported_at": "2024-10-07T22:29:42-04:00",
     "name": "\u00bb SAMP",
     "author": "daniscript18@outlook.com",
     "description": "SAN ANDREAS MULTIPLAYER",
@@ -13,7 +13,7 @@
         "SAMP": "ghcr.io\/daniscript18\/yolks:samp"
     },
     "file_denylist": [],
-    "startup": ".\/start.sh {{SERVER_PORT}} {{MAX_PLAYERS}}",
+    "startup": ".\/start.sh {{SERVER_PORT}} {{MAX_PLAYERS}} {{SAMPVOICE}} {{SAMPVOICE_PORT}}",
     "config": {
         "files": "{}",
         "startup": "{\r\n    \"done\": \"Started server on \"\r\n}",
@@ -36,6 +36,26 @@
             "user_viewable": true,
             "user_editable": false,
             "rules": "required|integer|between:1,1000",
+            "field_type": "text"
+        },
+        {
+            "name": "SAMPVOICE",
+            "description": "Only sampvoice version 4.0^",
+            "env_variable": "SAMPVOICE",
+            "default_value": "false",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|boolean",
+            "field_type": "text"
+        },
+        {
+            "name": "SAMPVOICE_PORT",
+            "description": "",
+            "env_variable": "SAMPVOICE_PORT",
+            "default_value": "2020",
+            "user_viewable": true,
+            "user_editable": false,
+            "rules": "required|integer",
             "field_type": "text"
         }
     ]
