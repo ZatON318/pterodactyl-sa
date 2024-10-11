@@ -1,6 +1,6 @@
 #!/bin/bash
 
-install_box86() {
+main() {
     if [ $(dpkg --print-architecture) = "arm" ] || [ $(dpkg --print-architecture) = "arm64" ]; then
         if [ -f /etc/apt/sources.list.d/box86.list ]; then
             rm -f /etc/apt/sources.list.d/box86.list || exit 1
@@ -35,10 +35,6 @@ Signed-By: /usr/share/keyrings/box86-archive-keyring.gpg" | tee /etc/apt/sources
             rm libssl1.1_1.1.0g-2ubuntu4_i386.deb; \
         fi
     fi
-}
-
-main() {
-    install_box86
 }
 
 main
