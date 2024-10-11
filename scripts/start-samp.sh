@@ -70,7 +70,7 @@ sampvoice_files() {
         rm ./"$SAMPVOICE_START"
     fi
     curl -Lo sv_voice.zip https://github.com/CyberMor/sampvoice/releases/latest/download/sv_voice.zip
-    unzip sv_voice.zip
+    unzip -n sv_voice.zip
     rm sampvoice.exe voice.cfg sv_voice.zip
     chmod 755 sampvoice.out
 }
@@ -103,10 +103,17 @@ main() {
         
         update_config_value "sv_port" "$SAMPVOICE_PORT" "$CONFIG_FILE" " "
 
-        ./"$SAMPVOICE_START" &
+        if [ $(dpkg --print-architecture) = "arm" ] || [ $(dpkg --print-architecture) = "arm64" ]; then
+            box86 ./"$SAMPVOICE_START" &
+        else
+            ./"$SAMPVOICE_START" &
+        fi
     fi
-
-    ./"$START_FILE"
+    if [ $(dpkg --print-architecture) = "arm" ] || [ $(dpkg --print-architecture) = "arm64" ]; then
+        box86 ./"$START_FILE"
+    else
+        ./"$START_FILE"
+    fi
 }
 
 main

@@ -1,11 +1,11 @@
 ##      PLATFORMS AND BASE IMAGE
-FROM    --platform=$TARGETOS/$TARGETARCH ubuntu:latest
+FROM    --platform=$TARGETOS/$TARGETARCH ubuntu:22.04
 
 ##      CREDITS TO THE AUTHOR
 LABEL   author="daniscript18" maintainer="daniscript18@outlook.com"
 
 ##      DISABLE THE INTERACTION
-ENV     DEBIAN_FRONTEND noninteractive
+ENV     DEBIAN_FRONTEND=noninteractive
 
 ##      UPDATE THE LIST OF REPOSITORIES AND SYSTEM PACKAGES
 RUN     apt update -y ; apt upgrade -y

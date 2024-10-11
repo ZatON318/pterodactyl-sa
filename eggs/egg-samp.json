@@ -7,7 +7,7 @@
     "exported_at": "2024-10-07T22:29:42-04:00",
     "name": "\u00bb SAMP",
     "author": "daniscript18@outlook.com",
-    "description": "SAN ANDREAS MULTIPLAYER",
+    "description": "SAN ANDREAS MULTIPLAYER \u2014 AMD & ARM",
     "features": null,
     "docker_images": {
         "SAMP": "ghcr.io\/daniscript18\/yolks:samp"
