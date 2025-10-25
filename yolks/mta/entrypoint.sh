@@ -14,7 +14,7 @@ then # IF IT EXISTS
     rm start.sh
 
     # WE DOWNLOAD THE FILE AGAIN
-    wget https://raw.githubusercontent.com/daniscript18/pterodactyl/master/scripts/start-mta.sh --no-hsts -q
+    wget https://raw.githubusercontent.com/ZatON318/pterodactyl-sa/refs/heads/master/scripts/start-mta.sh --no-hsts -q
 
     # WE RENAME IT
     mv start-mta.sh start.sh
@@ -25,7 +25,7 @@ then # IF IT EXISTS
 else # IF NOT EXISTS
 
     # WE DOWNLOAD THE FILE AGAIN
-    wget https://raw.githubusercontent.com/daniscript18/pterodactyl/master/scripts/start-mta.sh --no-hsts -q
+    wget https://raw.githubusercontent.com/ZatON318/pterodactyl-sa/refs/heads/master/scripts/start-mta.sh --no-hsts -q
 
     # WE RENAME IT
     mv start-mta.sh start.sh
