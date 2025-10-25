@@ -26,7 +26,7 @@ ENV     USER=container HOME=/home/container
 WORKDIR /home/container
 
 ##      COPY THE EXECUTABLE FILE TO THE CONTAINER
-COPY    ./entrypoint.sh /entrypoint.sh
+COPY    ./yolks/mta/entrypoint.sh /entrypoint.sh
 
 ##      PRIMARY RUN COMMAND
 CMD     [ "/bin/bash", "/entrypoint.sh" ]
