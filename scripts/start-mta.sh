@@ -144,6 +144,29 @@ start_server()
     if [ $ARCHITECTURE == "aarch64" ]; then BOX64_LOG=0 box64 ./$START_FILE -n; else ./$START_FILE -n; fi
 }
 
+libssl_install()
+{
+    # Download and extract libssl1.1 .deb package
+    wget -O libssl1.1_1.1.1f-1ubuntu2_amd64.deb http://nz2.archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb
+    mkdir -p /tmp/libssl
+    dpkg-deb -x libssl1.1_1.1.1f-1ubuntu2_amd64.deb /tmp/libssl
+    
+    # Copy libssl.so.1.1 and libcrypto.so.1.1 to /usr/lib/x86_64-linux-gnu
+    mkdir -p /usr/lib/x86_64-linux-gnu
+    cp /tmp/libssl/usr/lib/x86_64-linux-gnu/libssl.so.1.1 /home/container/x64/
+    cp /tmp/libssl/usr/lib/x86_64-linux-gnu/libcrypto.so.1.1 /home/container/x64/
+    
+    # Set permissions
+    chmod 644 /home/container/x64/libssl.so.1.1
+    chmod 644 /home/container/x64/libcrypto.so.1.1
+    
+    # Update library cache
+    ldconfig
+    
+    # Set LD_LIBRARY_PATH for the MTA server
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/mnt/server/x64
+}
+
 # PRINCIPAL FUNCTION
 main()
 {
@@ -155,6 +178,7 @@ main()
     serverport
     httpport
     maxplayers
+    libssl_install
     start_server
 }
 
