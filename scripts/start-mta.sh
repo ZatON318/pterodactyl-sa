@@ -165,7 +165,7 @@ libssl_install()
     
     # Set LD_LIBRARY_PATH for the MTA server
     # export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/mnt/server/x64
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/x64 && ldd dbconmy.so
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/x64 && ldd ~/x64/dbconmy.so
 }
 
 # PRINCIPAL FUNCTION
